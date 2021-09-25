@@ -3,9 +3,9 @@ name: ecommerce-monolithic-backend-app workflow CI/CD pipeline
 
 on:
   pull_request:
-    branches: [ develop, master ]
+    branches: [ develop, staging, master ]
   push:
-    branches: [ develop, master ]
+    branches: [ develop, staging, master ]
 
 jobs:
   
