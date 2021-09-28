@@ -3,9 +3,9 @@ name: ecommerce-monolithic-backend-app workflow CI/CD pipeline
 
 on:
   pull_request:
-    branches: [ develop, master ]
+    branches: [ develop, staging, master ]
   push:
-    branches: [ develop, master ]
+    branches: [ develop, staging, master ]
 
 jobs:
   
@@ -44,7 +44,7 @@ jobs:
         tags: latest
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        password: ${{ secrets.DOCKER_PASSWORD }} 
     
   deploy:
     
