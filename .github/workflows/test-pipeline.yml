@@ -3,9 +3,9 @@ name: test ecommerce-monolithic-backend-app workflow CI/CD pipeline
 
 on:
   pull_request:
-    branches: [ test ]
+    branches: [ staging ]
   push:
-    branches: [ test ]
+    branches: [ staging ]
 
 jobs:
   
@@ -41,7 +41,7 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
         image: ${{ secrets.DOCKER_IMAGE }}
-        tags: test
+        tags: staging
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }} 
