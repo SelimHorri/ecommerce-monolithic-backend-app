@@ -1,0 +1,44 @@
+
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecommerce_prod_db
+    username: root
+    password: 
+  jpa:
+    #show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        #use_sql_comments: true
+        #format_sql: true
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+  jackson:
+    serialization:
+      indent-output: true
+
+logging:
+  level:
+    org:
+      #hibernate:
+        #SQL: DEBUG
+      springframework:
+        web: INFO
+        data: INFO
+      boot:
+        autoconfigure:
+          data:
+            rest: INFO
+            jpa: INFO
+            orm: INFO
+
+
+
+
+
