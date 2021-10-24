@@ -7,9 +7,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.selimhorri.app.constant.Roles;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,19 +17,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	private final UserDetailsService userDetailsService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@Override
+	/*@Override
 	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()
 			.withUser("selimhorri")
 			.password(this.bCryptPasswordEncoder.encode("0000"))
-			.roles(Roles.USER.toString())
+			.roles(Roles.USER.name())
 			.and()
+			.passwordEncoder(this.bCryptPasswordEncoder);
+	}*/
+	
+	@Override
+	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(this.userDetailsService)
 			.passwordEncoder(this.bCryptPasswordEncoder);
 	}
 	
-	@Override
+	/*@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
@@ -40,6 +46,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.frameOptions()
 			.sameOrigin();
 		
+	}*/
+	
+	@Override
+	protected void configure(final HttpSecurity http) throws Exception {
+		http.csrf().disable()
+			.authorizeRequests()
+			.antMatchers("/", "index", "**/css/**", "**/js/**").permitAll()
+			.antMatchers("/api/users/**").hasRole("USER")
+			.antMatchers("/api/products/**").hasRole("ADMIN")
+			.anyRequest().authenticated();
 	}
 	
 	@Bean
