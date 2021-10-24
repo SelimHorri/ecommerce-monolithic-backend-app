@@ -1,48 +1,58 @@
 package com.selimhorri.app.model.dto;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.selimhorri.app.model.entity.Credential;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
+	private final Credential credential;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
-	}
-	
-	@Override
-	public String getPassword() {
-		return null;
+		return List.of(new SimpleGrantedAuthority(this.credential.getRole().name()));
 	}
 	
 	@Override
 	public String getUsername() {
-		return null;
+		return this.credential.getUsername();
 	}
 	
 	@Override
-	public boolean isAccountNonExpired() {
-		return false;
-	}
-	
-	@Override
-	public boolean isAccountNonLocked() {
-		return false;
-	}
-	
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return false;
+	public String getPassword() {
+		return this.credential.getPassword();
 	}
 	
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return this.credential.getIsEnabled();
 	}
+	
+	@Override
+	public boolean isAccountNonExpired() {
+		return this.credential.getIsAccountNonExpired();
+	}
+	
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.credential.getIsAccountNonLocked();
+	}
+	
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return this.credential.getIsCredentialsNonExpired();
+	}
+	
+	
 	
 }
 
